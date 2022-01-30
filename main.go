@@ -1,34 +1,34 @@
 package main
 
 import (
-  "net/http"
-  "log"
-  "os"
+	"fmt"
+	"log"
+	"net/http"
 
-  "github.com/go-chi/chi"
-  "github.com/go-chi/chi/middleware"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
+	"github.com/kelseyhightower/envconfig"
 
-  "github.com/newline-sandbox/go-chi-restful-api/routes"
+	"github.com/paulorpdl/go-chi-restful-api/routes"
 )
 
 func main() {
-	port := "8080"
 
-  if fromEnv := os.Getenv("PORT"); fromEnv != "" {
-    port = fromEnv
-  }
+	config := &Config{}
 
-  log.Printf("Starting up on http://localhost:%s", port)
+	envconfig.Process("SERVER", config)
 
-  r := chi.NewRouter()
+	log.Printf("Starting up on http://%s:%s", config.Addr, config.Port)
 
-  r.Use(middleware.Logger)
+	r := chi.NewRouter()
 
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-    w.Write([]byte("Hello World!"))
-  })
+	r.Use(middleware.Logger)
 
-	r.Mount("/posts", routes.PostsResource{}.Routes())
+	r.Get(config.Path, func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("Hello World!"))
+	})
 
-	log.Fatal(http.ListenAndServe(":"+port, r))
+	r.Mount(fmt.Sprintf("%s/%s", config.Path, "posts"), routes.PostsResource{}.Routes())
+
+	log.Fatal(http.ListenAndServe(fmt.Sprintf("%s:%s", config.Addr, config.Port), r))
 }
