@@ -8,3 +8,6 @@ install_deps:
 
 test:
 	go test -v ./...
+
+build:
+	go build -v -o _output/app
