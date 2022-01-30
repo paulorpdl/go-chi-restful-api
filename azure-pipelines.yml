@@ -1,7 +1,4 @@
-# Go
-# Build your Go project.
-# Add steps that test, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/go
+
 
 trigger:
 - master
@@ -12,7 +9,7 @@ pool:
 steps: 
   - task: GoTool@0
     inputs:
-      version: '1.16'
+      version: '1.16.13'
     displayName: "Setup Golang env"
   - task: Go@0
     inputs:
@@ -30,3 +27,4 @@ steps:
     inputs:
       command: 'build'
       workingDirectory: '$(System.DefaultWorkingDirectory)'
+    displayName: "Build application"
