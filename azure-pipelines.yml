@@ -39,8 +39,8 @@ steps:
   - task: Docker@2
     inputs:
       command: buildAndPush
-      repository: $(containerRepository)
-      containerRegistry: $(containerRegistry)
+      repository: ${var.containerRepository}
+      containerRegistry: ${var.containerRegistry}
       Dockerfile: "**/Containerfile"
 
       
