@@ -10,7 +10,7 @@ variables:
   CGO_ENABLED: '0'
   GOOS: 'linux'
   GOARCH:  'amd64'
-  containerRepository: ''  
+  containerRepository: 'continuous-delivery/post-service'  
 
 
 steps: 
@@ -39,7 +39,7 @@ steps:
   - task: Docker@2
     inputs:
       command: buildAndPush
-      repository: ${var.containerRepository}
+      repository: $(containerRepository)
       containerRegistry: paulorpdl-container-registry
       Dockerfile: "**/Containerfile"
 
