@@ -10,6 +10,7 @@ variables:
   CGO_ENABLED: '0'
   GOOS: 'linux'
   GOARCH:  'amd64'
+  containerRepository: ''  
 
 
 steps: 
@@ -35,5 +36,11 @@ steps:
       arguments: '-a -o _output/app'
       workingDirectory: '$(System.DefaultWorkingDirectory)'
     displayName: "Build application"
+  - task: Docker@2
+    inputs:
+      command: buildAndPush
+      repository: $(containerRepository)
+      containerRegistry: $(containerRegistry)
+      Dockerfile: "**/Containerfile"
 
       
