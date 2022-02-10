@@ -40,7 +40,7 @@ steps:
     inputs:
       command: buildAndPush
       repository: ${var.containerRepository}
-      containerRegistry: ${var.containerRegistry}
+      containerRegistry: paulorpdl-container-registry
       Dockerfile: "**/Containerfile"
 
       
