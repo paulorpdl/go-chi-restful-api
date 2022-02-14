@@ -15,7 +15,7 @@ variables:
   CGO_ENABLED: '0' # Evitar linkeado de librerias del OS, para crear un binario funcional para Scratch Container
   GOOS: 'linux'
   GOARCH:  'amd64'
-  # tag: "latest"
+  tag: "latest"
 
 steps: 
   - task: Bash@3
