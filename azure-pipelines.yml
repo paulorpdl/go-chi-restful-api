@@ -52,5 +52,6 @@ steps:
       repository: ${{ parameters.containerRepository }}
       containerRegistry: paulorpdl-container-registry
       Dockerfile: "**/Containerfile"
-      tags: ${{ parameters.tags }}
+      tags: 
+        ${{ parameters.tags }}
       
