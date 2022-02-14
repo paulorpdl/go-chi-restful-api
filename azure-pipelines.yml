@@ -53,4 +53,4 @@ steps:
       Dockerfile: "**/Containerfile"
       tags: | 
         latest
-        $(tag)
+        '$(tag)'
