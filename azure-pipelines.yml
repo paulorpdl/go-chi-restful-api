@@ -15,7 +15,7 @@ variables:
   CGO_ENABLED: '0' # Evitar linkeado de librerias del OS, para crear un binario funcional para Scratch Container
   GOOS: 'linux'
   GOARCH:  'amd64'
-  tag: "latest"
+  # tag: "latest"
 
 steps: 
   - task: Bash@3
@@ -24,8 +24,8 @@ steps:
       script: |
         HASH=$(git describe --match 'v[0-9]*' --dirty='.m' --always --tags)
         echo Git commit id: $HASH
-        echo "###vso[task.setvariable variable=tag]$HASH"
-        echo Tag for image: ${{ variables.tag }}
+        echo "##vso[task.setvariable variable=tag]$HASH"
+        echo Tag for image: ${{ variable.tag }}
     displayName: "Get commit id for tagging"
   - task: GoTool@0
     inputs:
