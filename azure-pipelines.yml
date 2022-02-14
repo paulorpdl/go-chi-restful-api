@@ -22,7 +22,7 @@ parameters:
   - name: "azureAppName"
     type: "string"
     default: "post-service"
-  - name: "resourgeGroupName"
+  - name: "resourceGroupName"
     type: "string"
     default: "Continuous-Delivery"
   
