@@ -22,6 +22,9 @@ parameters:
   - name: "azureAppName"
     type: "string"
     default: "post-service"
+  - name: "resourgeGroupName"
+    type: "string"
+    default: "Continuous-Delivery"
   
 
 variables:
@@ -71,6 +74,7 @@ steps:
     inputs:
       azureSubscription: ${{ parameters.azureSubscriptionServiceConnection }}
       appName: ${{ parameters.azureAppName }}
+      resourceGroupName: ${{ parameters.resourceGroupName }}
       containers: ${{ parameters.containerRegistryName}}/${{ parameters.containerRepository }}:$(variables.tag)
     displayName: "Deploy to Azure App Service"
       
