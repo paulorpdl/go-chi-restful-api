@@ -21,6 +21,8 @@ steps:
   - bash: 
       HASH=$(git describe --match 'v[0-9]*' --dirty='.m' --always --tags)
       echo "###vso[task.setvariable variable=tag]$HASH"
+      echo Tag for image '$(tag)'
+    displayName: "Get commit id for tagging"
   - task: GoTool@0
     inputs:
       version: '1.16.13'
