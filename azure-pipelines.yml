@@ -75,6 +75,6 @@ steps:
       azureSubscription: ${{ parameters.azureSubscriptionServiceConnection }}
       appName: ${{ parameters.azureAppName }}
       resourceGroupName: ${{ parameters.resourceGroupName }}
-      containers: ${{ parameters.containerRegistryName}}/${{ parameters.containerRepository }}:$(variables.tag)
+      containers: ${{ parameters.containerRegistryName}}/${{ parameters.containerRepository }}:$(variables.tag) 
     displayName: "Deploy to Azure App Service"
       
