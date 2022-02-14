@@ -6,14 +6,24 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+parameters:
+  - name: "containerRepository"
+    type: "string"
+    default: "continuous-delivery/post-service"
+  - name: "tags"
+    type: "object"
+    default:
+    - "latest"
+
 variables:
-  CGO_ENABLED: '0'
+  CGO_ENABLED: '0' # Evitar linkeado de librerias del OS, para crear un binario funcional para Scratch Container
   GOOS: 'linux'
   GOARCH:  'amd64'
-  containerRepository: 'continuous-delivery/post-service'  
-
 
 steps: 
+  # - bash: 
+  #     HASH=$(git describe --match 'v[0-9]*' --dirty='.m' --always --tags)
+  #     echo "###vso[build.update"
   - task: GoTool@0
     inputs:
       version: '1.16.13'
@@ -39,8 +49,8 @@ steps:
   - task: Docker@2
     inputs:
       command: buildAndPush
-      repository: $(containerRepository)
+      repository: ${{ parameters.containerRepository }}
       containerRegistry: paulorpdl-container-registry
       Dockerfile: "**/Containerfile"
-
+      tags: ${{ parameters.tags }}
       
