@@ -66,6 +66,7 @@ steps:
       tags: | 
         latest
         $(tag)
+    displayName: "Build and Push Docker Image"
   - task: AzureWebAppContainer@1
     inputs:
       azureSubscription: ${{ parameters.azureSubscriptionServiceConnection }}
