@@ -10,6 +10,19 @@ parameters:
   - name: "containerRepository"
     type: "string"
     default: "continuous-delivery/post-service"
+  - name: "containerRegistryName"
+    type: "string"
+    default: "paulorpdl.azurecr.io"
+  - name: "dockerRegistryServiceConnection"
+    type: "string"
+    default: "paulorpdl-container-registry"
+  - name: "azureSubscriptionServiceConnection"
+    type: "string"
+    default: "paulorpdl-azure-subscription"
+  - name: "azureAppName"
+    type: "string"
+    default: "post-service"
+  
 
 variables:
   CGO_ENABLED: '0' # Evitar linkeado de librerias del OS, para crear un binario funcional para Scratch Container
@@ -20,9 +33,7 @@ variables:
 steps: 
   - bash: | 
       HASH=$(git describe --match 'v[0-9]*' --dirty='.m' --always --tags)
-      echo Git commit id: $HASH
       echo "##vso[task.setvariable variable=tag;]$HASH"
-      echo Tag for image: $(variables.tag)
     displayName: "Get commit id for tagging"
   - task: GoTool@0
     inputs:
@@ -50,8 +61,15 @@ steps:
     inputs:
       command: buildAndPush
       repository: ${{ parameters.containerRepository }}
-      containerRegistry: paulorpdl-container-registry
+      containerRegistry: ${{ parameters.dockerRegistryServiceConnection}}
       Dockerfile: "**/Containerfile"
       tags: | 
         latest
         $(tag)
+  - task: AzureWebAppContainer@1
+    inputs:
+      azureSubscription: ${{ parameters.azureSubscriptionServiceConnection }}
+      appName: ${{ parameters.azureAppName }}
+      containers: ${{ parameters.containerRegistryName}}/${{ parameters.containerRepository }}:${{ variables.tag }}
+    displayName: "Deploy to Azure App Service"
+      
