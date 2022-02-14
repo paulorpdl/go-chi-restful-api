@@ -23,8 +23,9 @@ steps:
       targetType: 'inline'
       script: |
         HASH=$(git describe --match 'v[0-9]*' --dirty='.m' --always --tags)
+        echo Git commit id: $HASH
         echo "###vso[task.setvariable variable=tag]$HASH"
-        echo Tag for image '$(tag)'
+        echo Tag for image: ${tag}
     displayName: "Get commit id for tagging"
   - task: GoTool@0
     inputs:
@@ -55,5 +56,5 @@ steps:
       containerRegistry: paulorpdl-container-registry
       Dockerfile: "**/Containerfile"
       tags: | 
-        'latest'
-        '$(tag)'
+        latest
+        ${variables.tag}
